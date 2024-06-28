@@ -1,0 +1,35 @@
+{
+  "university": {
+    "name": "University of Switzerland",
+    "location": "Switzerland",
+    "departments": [
+      {
+        "name": "Computer Science",
+        "courses": [
+          {
+            "course_id": "CS101",
+            "course_name": "Introduction to Programming",
+            "credits": 5,
+            "instructor": "Dr. John Doe"
+          },
+          {
+            "course_id": "CS102",
+            "course_name": "Data Structures",
+            "credits": 4,
+            "instructor": "Dr. Jane Roe"
+          }
+        ]
+      }
+    ]
+  },
+  "student": {
+    "student_id": "S001",
+    "name": "Alice Smith",
+    "age": 20,
+    "major": "Computer Science",
+    "courses": [
+      "CS101",
+      "CS102"
+    ]
+  }
+}

@@ -1,0 +1,135 @@
+---
+title: "Pruefung_HS23"
+output: html_document
+date: "2024-02-07"
+---
+
+![](header.png)
+
+Bibliotheken einbinden und Einstellungen (bei Bedarf darfst du gerne weitere benutzen):
+```{r setup}
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Versionen:
+```{r}
+sessionInfo()
+```
+
+## Aufgabe 1 (31 Punkte)
+
+Du hast dir einen Job als Data Scientist beim Hotellerie-Verband geschnappt und sollst als erstes für eine Publikation unter anderem eine aktualisierte Statistik der Anzahl der Hotelübernachtungen ("Logiernächte") pro Kanton erstellen. Damit soll den Hoteliers die Möglichkeit geboten werden, Trends zu erkennen und entsprechend darauf zu reagieren. 
+
+Die kumulierte Anzahl der Logiernächte pro Jahr und Kanton, aufgeschlüsselt nach Herkunftsland, findest du in der beigefügten Datei `Hotellerie.xlsx`. In der ersten Teilaufgabe analysierst du nur die Daten für das Jahr 2023, ab Teilaufgabe b) möchtest du deine Analyse dann auf alle Jahre seit 2005 ausweiten.
+
+### a) (12 Punkte)
+
+Lies die Logiernächte für das Jahr 2023 aus der Excel-Datei ein und bringe sie in ein Data Frame der folgenden Form:
+
+<img src="hotellerie1.png" width="1000">
+
+Die Namen der einzelnen Kantone darfst du dabei nicht manuell oder mit copy&paste zuweisen, sondern sollst sie direkt mit Python/R aus der Excel-Datei lesen (das Einlesen der Spaltennamen kann auch nachgelagert in einem zweiten Schritt nach dem Einlesen der Daten erfolgen). Ebenfalls sollst du die Logiernächte nicht über manuelle Eingabe der Spaltennamen extrahieren, sondern über eine geeignete Regel in Python/R (siehe Hinweise).
+
+**Hinweise:**
+
+* Extrahiere nur die Logiernächte, der Rest (Ankünfte und Dauer) interessiert uns für diese Auswertung nicht. Die Extraktion der Logiernächte (und auch der Kantonsnamen) kann z.B. effizient mit einer Zahlenreihe mit `np.arange()` in Python oder `seq()` in R erfolgen.
+* Stelle sicher, dass die Namen der Kantone getrimmt sind (d.h. keine führenden oder nachfolgenden Whitespaces mehr enthalten).
+* Das Datenset enthält 27 statt 26 Kantone, warum sollte dir schnell klar sein.
+* Prüfe am Schluss auf fehlende Werte - dein Data Frame sollte davon keine mehr enthalten.
+
+```{r cars}
+# DEIN CODE
+```
+
+### b) (5 Punkte)
+
+Du möchtest nun für jedes Jahr ein solches Data Frame erstellen. Während die Kantone seit 2005 die gleichen geblieben sind (gleiche Anzahl Spalten, gleiche Reihenfolge), variert die Anzahl der Herkunftsländer (also Anzahl der Zeilen) pro Jahr. Vermutlich hast du die Anzahl der eingelesenen Zeilen in Teilaufgabe a) hardcodiert, dies möchten wir nun automatisieren. Schreibe eine Funktion `truncate_data( df )`, die einem Data Frame `df` die überflüssigen Zeilen am Ende automatisch abschneidet und dafür sorgt, dass alle Daten im Data Frame vorhanden sind, aber keine unsinnigen oder fehlende Werte mehr vorkommen.
+
+
+**Hinweise:**
+
+* Die Anzahl der Header-Zeilen ist für alle Jahre gleich, du kannst diese wie üblich mit deiner Excel-Einlesefunktion bereits hardcodiert wegschneiden. 
+* Zum Zuschneiden gibt es verschiedene Möglichkeiten, du kannst zum Beispiel nach dem ersten fehlenden Wert in `Herkunftsland` suchen.
+* Prüfe, ob deine Funktion korrekt funktioniert, indem du die Daten verschiedener Jahre damit zuschneidest und mit dem unteren Ende in der Excel-Datei vergleichst.
+
+```{r}
+# DEIN CODE
+```
+
+### c) (4 Punkte)
+
+Nun möchtest du mit einer Pipeline die Daten aller Jahre in ein einziges Data Frame einlesen. Schreibe und prüfe dazu als erstes eine Funktion `read_year(file, year)`, die die Daten eines Jahres aus der Excel-Datei `file` korrekt einliest und als Data Frame zurückgibt.
+
+```{r}
+# DEIN CODE
+```
+
+### d) (4 Punkte)
+
+Schreibe nun eine weitere Funktion `read_data(file, year_min, year_max)`, die aus einer übergebenen Excel-Datei  (`file`) die Daten aller Jahre zwischen `year_min` und `year_max` einliest. Die Funktion soll alle Data Frames der einzelnen Jahre einlesen, jedem zusätzlich die Spalte `Jahr` hinzufügen und am Schluss die einzelnen Data Frames zu einem einzigen grossen zusammenhängen. Führe diese Funktion aus und lies damit die Statistik aller Jahre von 2005 bis und mit 2023 ein.
+
+```{r}
+# DEIN CODE
+```
+
+### e) (6 Punkte)
+
+Eine Arbeitskollegin fragt dich, wie die Herkunftsländer der Tourist:innen in Luzern 2023 anteilsmässig verteilt waren. Erstelle einen Barplot mit den absteigenden Top10 der anteilsmässig stärksten Herkunftsländer für den Kanton Luzern, um ihn deiner Kollegin zu zeigen.
+
+**Hinweis:** Am besten schränkst du dein grosses Data Frame als erstes einmal nur auf den Kanton Luzern ein.
+
+Bonusfrage (1 Punkt): Warum denkst du, ist der Anteil der chinesischen Tourist:innen in dieser Statistik so klein, obwohl gerade die Stadt Luzern sehr für Besuch chinesischer Herkunft bekannt ist? 
+
+```{r}
+# DEIN CODE
+```
+
+## Aufgabe 2 (25 Punkte)
+
+Du arbeitest als Data Scientist neu bei einem Startup, das sich darauf spezialisieren möchte, die Erfolgsquote von Gebirgstouren mit Hilfe von Data Science und Machine Learning zu verbessern. Als Einarbeitungschallenge sollst du herausfinden, welches Wissen aus einem Datenset aus Himalaya-Expeditionen gezogen werden kann. Dieses Datenset ist hierarchisch organisiert: Auf der obersten Stufe sind die Gipfel (peaks). Zu jedem Peak wurde eine Reihe von Expeditionen gestartet, je nachdem mit oder ohne Erfolg. Jede Expedition besteht wiederum aus einer Reihe von Mitgliedern. Auf allen drei Hierarchiestufen wurden Daten gesammelt, zum Beispiel die Höhe des Gipfels (Stufe 1), die Jahreszeit einer Expedition zu einem Gipfel (Stufe 2) oder das Alter eines Expeditionsmitglieds (Stufe 3).
+
+### a) (7 Punkte)
+
+Die ersten zwei Hierarchiestufen (Gipfel und Expeditionen) liegen dir als JSON-Datei vor. Lies die beiliegende Datei `expedition_statistics.json` in ein Data Frame ein und mache sie flach, so dass jede Expedition mit entsprechenden Peak-Daten durch eine Zeile repräsentiert ist.
+
+**Hinweise**:
+* Benutze eine geeignete Kombination aus `explode()` / `json\_normalize()` (Pandas) bzw. `unnest()` (tidyverse) um das Data Frame flach zu machen.
+* Dein resultierendes Data Frame sollte aus 10'441 Zeilen bestehen, Peaks ohne Expeditionen sollten explizit im Datenset drin bleiben.
+
+```{r}
+# DEIN CODE
+```
+
+### b) (9 Punkte)
+
+Die Mitgliederdaten zu den einzelnen Expeditionen sind in `members.csv` zu finden. Lies die Datei ein und führe einen Join an die Expeditionsdaten aus, insbesondere mit den folgenden Schritten
+
+1. Prüfe, ob jede Expeditions-ID nur jeweils einer Peak-ID zugewiesen ist, d.h. ob es ausreicht, nur sie als Join-Kriterium zu verwenden.
+2. Entferne alle Variablen auf Peak- oder Expeditionslevel (`peak_id`, `year`, ..) aus den Mitgliederdaten, so dass durch den Join keine Duplikate von Spalten entstehen, die gleich sind, aber keine Join-Kriterien waren (Verwendung als Join-Kriterien wegen fehlender Werte schwierig).
+3. Benenne die Spalte '`oxygen_used`' auf Mitglieder-Level in '`member_oxygen_used`' um.
+4. Verwende einen Left-Join, um den Verlust von allfälligen Expeditionen ohne Mitgliederdaten zu vermeiden.
+5. Gib zum Schluss die Anzahl Zeilen des resultierenden Data Frames aus.
+
+```{r}
+# DEIN CODE
+```
+
+### c) (4 Punkte)
+
+Wie stark beeinflusst der Gebrauch von Sauerstoff (`member_oxygen_used`) den Erfolg (`success`) oder den Tod (`died`) eines Expeditionsmitglieds im Schnitt? Berechne die insgesamte Erfolgs- bzw. Todesrate mit und ohne Sauerstoff und vergleiche.
+
+```{r}
+# DEIN CODE
+```
+
+### d) (5 Punkte)
+
+Du möchtest eine Statistik erstellen, wo du die durchschnittliche Erfolgsrate pro Gipfel angibst. Gehe dazu folgendermassen vor:
+
+1. Erzeuge eine Variable '`expedition_success_rate`' auf Expeditionslevel, die die Mitglieder-Erfolgsrate (`success`) pro Expedition angibt.
+2. Berechne für jeden Peak die durchschnittliche Expeditionserfolgsrate und visualisiere die resultierende Verteilung in einem Histogramm.
+
+```{r}
+# DEIN CODE
+```
