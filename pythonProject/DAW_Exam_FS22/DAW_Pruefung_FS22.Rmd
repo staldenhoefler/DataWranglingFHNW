@@ -1,0 +1,160 @@
+---
+title: "Data Wrangling Prüfung FS22"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+```
+
+## Aufgabe 1 (27 Punkte)
+
+Sie arbeiten bei einer Firma mit Kunden im Bankenbereich, die versucht, das Einkommen von Privatpersonen abzuschätzen um mögliche Kunden für den Private-Banking-Sektor zu identifizieren. Dazu beschaffen Sie sich die Lohnerhebungsdaten des Bundesamtes für Statistik und versuchen diese in eine Form zu bringen, die Sie dann später für Vorhersagen benutzen können. In dieser Aufgabe beginnen Sie Ihr Data Wrangling mit der Datei `Lohndaten_Grossregionen_BFS.xlsx`, die die Medianlöhne pro Grossregion der Schweiz und Wirtschaftszweig enthält und alle 2 Jahre erhoben wird.
+
+### a) (7 Punkte)
+
+Sichten Sie die Daten zum Jahr **2020** der Excel-Datei und lesen Sie diese dann in ein Dataframe ein. Das Data Frame soll die Spalten 'NOGA08' und 'Wirtschaftszweig' enthalten, gefolgt von den aufgeführten Grossregionen.
+
+Benutzen Sie soviel Funktionalität der Einlese-Funktion wie möglich, schränken Sie insbesondere die einzulesenden Zeilen und Spalten geeignet ein und spezifizieren Sie Zeichenketten die für fehlende Werte stehen und automatisch mit `NaN` bzw. `NA` ersetzt werden können. Da das automatische Einlesen der Spaltenbezeichnungen zu kompliziert ist, definieren Sie diese manuell.
+
+Da Ihre Pipeline später auch auf aktualiserten Daten mit dem Jahr 2022 funktionieren soll, verzichten Sie auf direkte Änderungen an der Excel-Datei und führen alle Operationen in Ihrem Data Wrangling - Framework aus.
+
+```{r}
+# IHR CODE
+
+```
+
+### b) (4 Punkte)
+
+Die Lohndaten pro Grossregion sind nach Wirtschaftszweig unterteilt. Jeder Wirtschaftszweig ist nebst der Bezeichnung mit einem sogenannten NOGA08-Code codiert. Extrahieren Sie aus dem in Teilaufgabe a) eingelesenen Data Frame nur einzelne Wirtschafszweige mit einzelner NOGA-Code-Nummer, d.h. eliminieren Sie alle zusammenfassenden Gruppen (mit Bindestrich) oder Zeilen, wo kein numerischer NOGA08-Code vorliegt. Setzen Sie zum Schluss den Datentyp von 'NOGA08' auf Integer und stellen so sicher, dass Sie korrekt vorgegangen sind.
+
+```{r}
+# IHR CODE
+
+```
+
+### c) (4 Punkte)
+
+Als nächstes setzen Sie den Datentyp aller Lohn-Zentralwerte auf `float` (bzw. `numeric` für R). Entfernen Sie dazu den Hinweis auf einen zu grossen Variationskoeffizienten der in einigen Lohnzahlen gesetzt ist (siehe Excel-Datei).
+
+```{r}
+# IHR CODE
+
+```
+
+### d) (3 Punkte)
+
+ Erzeugen Sie nun aus dem Resultat von Teilaufgabe c) eine Tabelle mit folgenden Spalten: *'NOGA08', 'Wirtschaftszweig', 'Grossregion', 'Zentralwert'*
+ 
+```{r}
+# IHR CODE
+
+```
+
+### e) (5 Punkte)
+
+In der Excel-Datei finden sich auch Daten zum Jahr 2018. Da das Format ziemlich ähnlich aussieht wie dasjenige von 2020, schreiben Sie eine Funktion `read_salaries( excel_file, year )`, die Ihnen alle Schritte aus den Teilaufgaben a)-d) hintereinander ausführt und das resultierende Data Frame zurückgibt.
+
+Lesen Sie mit dieser Funktion die Daten von 2020 und 2018 ein, definieren Sie jeweils eine Spalte 'Jahr' und setzen Sie die beiden Datensätze zu einem einzigen Data Frame zusammen.
+
+```{r}
+# IHR CODE
+
+```
+
+### f) (4 Punkte)
+
+In welchem Wirtschaftszweig haben die Angestellten schweizweit zwischen 2018 und 2020 die stärkste Lohnzunahme bzw. die stärkste Lohnabnahme erfahren? Berücksichtigen Sie die Tabakindustrie entsprechend der Bemerkung in Fussnote 1 der Excel-Datei nicht.
+
+**Hinweis:** Hier kann es Sinn machen, Ihrer Funktion aus e) ein Argument `wide_to_long=False` hinzuzufügen.
+
+```{r}
+# IHR CODE
+
+```
+
+## Aufgabe 2 (27 Punkte)
+
+
+Sie arbeiten bei einer Firma im Lebensmittelbereich und haben den Auftrag, ein Recommender-System aufzusetzen. Ihre Vorgesetzte empfiehlt Ihnen, sich zum Aufwärmen mal ein etwas einfacheres Datenset mit Film-Bewertungen zu untersuchen. Das Datenset ist auf dem SQL-Server der Firma bereits verfügbar, damit Sie sich aber nicht mit der Verbindung herumschlagen müssen, überreicht sie Ihnen die Datenbank als `sqlite3`-Datei. Dort stecken die Tabellen `movies` (Details der einzelnen Filme) und `ratings` (Bewertungen durch die User des Systems).
+In dieser Aufgabe bereiten Sie das Datenset etwas auf.
+
+
+**Hinweis:** Falls Sie eine der Teilaufgaben b)-d) nicht vollständig schaffen, können Sie trotzdem mit Teilaufgabe d) weitermachen.
+
+### a) (6 Punkte)
+
+ Lesen Sie die Tabellen `movies` und `ratings` aus der beigelegten Datei `movie_data.sqlite` ein und geben Sie die ersten paar Zeilen beider Data Frames aus. Die Spaltennamen sind selbsterklärend. Stellen Sie sicher, dass die Felder `movieId`, `userId` und `timestamp` den Integer-Datentyp haben und dass `rating` als Float vorliegt.
+ 
+```{r}
+# IHR CODE
+
+```
+
+### b) (6 Punkte)
+
+ Bringen Sie Filmtitel und Jahr in der Spalte `title` in `movies` in zwei separate Spalten `title` und `year`, entfernen Sie insbesondere auch die Klammern um das Jahr und setzen Sie den Datentyp von `year` auf Float. 
+
+Prüfen Sie, ob Sie mit Ihrem Ansatz alle Zeilen im Datensatz korrekt bearbeitet haben, indem Sie `year` auf fehlende Werte prüfen. Sie sollten nicht mehr als 13 fehlende Werte finden.
+
+**Hinweis:** Hier könnte die Verwendung von regulären Ausdrücken Sinn machen.
+
+```{r}
+# IHR CODE
+
+```
+
+### c) (3 Punkte)
+
+Sie interessieren sich dafür, wie die Ratings zeitlich getätigt wurden. Erstellen Sie dazu in `ratings` ein Feld `date`, das das Feld `timestamp` als Datumsformat in der Form `'DD.MM.YYYY hh:mm:ss'` repräsentiert. Visualieren Sie die Anzahl der getätigten Ratings pro Jahr mit einem Histogramm.
+
+**Hinweis:** Der Timestamp liegt in Unix-Epochen in Sekunden seit dem 1.1.1970 vor.
+
+```{r}
+# IHR CODE
+
+```
+
+### d) (8 Punkte)
+
+Im Folgenden möchten wir einige Fragen beantworten. Erstellen Sie dazu explizit ein neues Data Frame, in dem Sie zu `ratings` zusätzlich noch den Filmtitel und das Jahr hinzufügen. Benutzen Sie einen geeigneten Join, der sicherstellt dass keine nicht-gerateten Filme verloren gehen und entsprechend ein `NaN` bzw. `NA` bei fehlenden Ratings setzt.
+
+Machen Sie anschliessend eine kurze Statistik auf dem erstellten Data Frame und beantworten Sie folgende Fragen:
+
+1. Wie ist der Wertebereich der Ratings?
+
+```{r}
+# IHR CODE
+
+```
+
+2. Für welchen Film existieren am meisten Ratings?
+
+```{r}
+# IHR CODE
+
+```
+
+3. Kann ein einzelner User einen Film mehrmals raten?
+
+```{r}
+# IHR CODE
+
+```
+
+4. Wieviele Prozent der Filme wurden mindestens einmal gerated? Wieviele nie?
+
+```{r}
+# IHR CODE
+
+```
+
+### e) (4 Punkte)
+
+Nun soll die sogenannte `User-Item-Matrix` erstellt werden. Diese Matrix soll als Zeilen die User IDs und als Spalten die Movie IDs enthalten und als Matrixelemente das von User `userId` für den Film `movieId` getätigte Rating.
+Stellen Sie sicher, dass fehlende Ratings auf 0 gesetzt sind.
+
+```{r}
+# IHR CODE
+
+```
